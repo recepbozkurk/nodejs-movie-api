@@ -33,6 +33,15 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
+//Error Handler
+app.use((err, req, res, next) => {
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+    res.status(err.status || 500);
+    res.json({ error : err.message, code: err.code});
+});
+
 //Express serverı dinleyeceğim port ayarlarını yapıyorum
 app.listen(3000, () => {
     console.log('Express Server is working!');
